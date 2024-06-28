@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <h1>Criar um Novo Formulário</h1>
+    <form action="/save_form" method="post">
+        <div>
+            <label>Título:</label>
+            <input type="text" name="title" required>
+        </div>
+        <div>
+            <label>Descrição:</label>
+            <input type="text" name="description" required>
+        </div>
+        <div id="inputs-container">
+            <!-- Os campos de entrada serão adicionados aqui dinamicamente -->
+        </div>
+        <div>
+            <label for="input-type">Tipo de Entrada:</label>
+            <select id="input-type">
+                <option value="text">Texto</option>
+                <option value="number">Número</option>
+                <option value="datetime">Data e Hora</option>
+                <option value="range">Intervalo</option>
+                <option value="multipleSelection">Seleção Múltipla</option>
+            </select>
+            <button type="button" onclick="addInput()">Adicionar Entrada</button>
+        </div>
+        <button type="submit">Salvar Formulário</button>
+    </form>
+</div>
+<script>
+function addInput() {
+    const type = document.getElementById('input-type').value;
+    const container = document.getElementById('inputs-container');
+    const inputId = 'input-' + (container.children.length + 1);
+
+    let inputHtml = `<div id="${inputId}">
+                        <label>Rótulo:</label>
+                        <input type="text" name="label-${inputId}">
+                        <input type="hidden" name="type-${inputId}" value="${type}">`;
+
+    if (type === 'multipleSelection') {
+        inputHtml += `<textarea name="options-${inputId}" placeholder="Digite as opções separadas por vírgulas"></textarea>`;
+    }
+
+    inputHtml += `</div>`;
+    container.insertAdjacentHTML('beforeend', inputHtml);
+}
+</script>
+{% endblock %}

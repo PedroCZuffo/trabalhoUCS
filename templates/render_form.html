@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <h1>{{ form.title }}</h1>
+    <p>{{ form.description }}</p>
+    <form>
+        {% for input in form.inputs %}
+            <div>
+                <label>{{ input.label }}</label>
+                {% if input.type == 'text' %}
+                    <input type="text" name="{{ input.name }}">
+                {% elif input.type == 'number' %}
+                    <input type="number" name="{{ input.name }}">
+                {% elif input.type == 'datetime' %}
+                    <input type="datetime-local" name="{{ input.name }}">
+                {% elif input.type == 'range' %}
+                    <input type="range" name="{{ input.name }}">
+                {% elif input.type == 'multipleSelection' %}
+                    <select name="{{ input.name }}" multiple>
+                        {% for option in input.options %}
+                            <option value="{{ option }}">{{ option }}</option>
+                        {% endfor %}
+                    </select>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </form>
+</div>
+{% endblock %}

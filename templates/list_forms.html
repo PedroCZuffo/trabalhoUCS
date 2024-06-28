@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <h1>Formulários Existentes</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Título</th>
+                <th>Descrição</th>
+                <th>Visualizar</th>
+                <th>Editar</th>
+                <th>Excluir</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for form in forms %}
+                <tr>
+                    <td>{{ form.title }}</td>
+                    <td>{{ form.description }}</td>
+                    <td>
+                        <form action="/form/render_form" method="get">
+                            <input type="hidden" name="form_id" value="{{ form.id }}">
+                            <button type="submit">Ver Formulário</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form action="/edit_form" method="post">
+                            <input type="hidden" name="form_id" value="{{ form.id }}">
+                            <button type="submit">Editar Formulário</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form action="/delete_form" method="post">
+                            <input type="hidden" name="form_id" value="{{ form.id }}">
+                            <button type="submit">Excluir</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
