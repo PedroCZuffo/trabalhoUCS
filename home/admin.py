@@ -1,23 +1,25 @@
 from django.contrib import admin
-from .models import Form, InputNumber, InputText, InputTime, InputMultipleChoice
+from .models import Historia, Pergunta, Botao
 
-class InputNumberInline(admin.TabularInline):
-    model = InputNumber
-    fk_name = 'form'
+class BotaoInline(admin.TabularInline):
+    model = Botao
+    extra = 1
 
-class InputTextInline(admin.TabularInline):
-    model = InputText
-    fk_name = 'form'
+class PerguntaInline(admin.TabularInline):
+    model = Pergunta
+    extra = 1
 
-class InputTimeInline(admin.TabularInline):
-    model = InputTime
-    fk_name = 'form'
+class HistoriaAdmin(admin.ModelAdmin):
+    list_display = ('titulo', 'image')
+    inlines = [PerguntaInline]
 
-class InputMultipleChoiceInline(admin.TabularInline):
-    model = InputMultipleChoice
-    fk_name = 'form'
+class PerguntaAdmin(admin.ModelAdmin):
+    list_display = ('titulo', 'texto', 'historia', 'tipo')
+    inlines = [BotaoInline]
 
-@admin.register(Form)
-class FormAdmin(admin.ModelAdmin):
-    inlines = [InputNumberInline, InputTextInline, InputTimeInline, InputMultipleChoiceInline]
-    list_display = ('title', 'uuid')
+class BotaoAdmin(admin.ModelAdmin):
+    list_display = ('texto', 'pergunta')
+
+admin.site.register(Historia, HistoriaAdmin)
+admin.site.register(Pergunta, PerguntaAdmin)
+admin.site.register(Botao, BotaoAdmin)
