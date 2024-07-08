@@ -30,5 +30,5 @@ class Botao(models.Model):
     pergunta = models.ForeignKey(Pergunta, related_name='botoes', on_delete=models.CASCADE, null=True, blank=True)
 
 class Resposta(models.Model):
-    texto = models.CharField()
-    pergunta = models.ForeignKey(Pergunta, related_name='botoes', on_delete=models.CASCADE, null=True, blank=True)
+    texto = models.TextField()
+    pergunta = models.ForeignKey(Pergunta, related_name='respostas', on_delete=models.CASCADE, null=True, blank=True)
