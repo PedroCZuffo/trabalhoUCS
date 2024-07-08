@@ -4,4 +4,5 @@ from .views import *
 urlpatterns = [
     path('historias/', HistoriaListView.as_view(), name='historia-list'),
     path('historia/', FilteredHistoriaListView.as_view(), name='historia-filtered'),
+    path('respostas/', RespostaCreateView.as_view(), name='resposta-create'),
 ]

@@ -28,3 +28,7 @@ class Botao(models.Model):
     id = models.AutoField(primary_key=True)
     texto = models.CharField(max_length=255)
     pergunta = models.ForeignKey(Pergunta, related_name='botoes', on_delete=models.CASCADE, null=True, blank=True)
+
+class Resposta(models.Model):
+    texto = models.CharField()
+    pergunta = models.ForeignKey(Pergunta, related_name='botoes', on_delete=models.CASCADE, null=True, blank=True)
