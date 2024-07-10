@@ -13,8 +13,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Install Django and other dependencies
 RUN pip install django djangorestframework django-jazzmin pillow
 
+# Copy the create_superuser.py script
+COPY create_superuser.py /usr/src/app/
+
 # Make port 8000 available to the world outside this container
 EXPOSE 8000
 
 # Run the Django server
-CMD ["sh", "-c", "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
+CMD ["sh", "-c", "python manage.py makemigrations && python manage.py migrate && python create_superuser.py && python manage.py runserver 0.0.0.0:8000"]
