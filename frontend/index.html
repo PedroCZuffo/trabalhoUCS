@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conception Clínica - Formulários</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+        .screen {
+            display: none;
+        }
+        .active {
+            display: flex;
+        }
+        .mdc-button.selected {
+            background-color: #008cba;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div id="entrada" class="screen active">
+        <div class="container">
+            <div class="header">
+                <div class="logo">
+                    <img src="logo.png" alt="Conception Clínica Logo">
+                </div>
+                <div class="menu-icon">☰</div>
+            </div>
+            <div class="inner-content">
+                <div class="title">Selecione um Formulário</div>
+                <div class="content">
+                    <div class="questionnaire-list" id="questionnaire-list">
+                        <!-- Os botões e seções de perguntas serão carregados aqui dinamicamente via scripts.js -->
+                    </div>
+                    <div class="button-group">
+                        <button class="mdc-button" type="button" id="apply-button" disabled>Aplicar Formulário</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="boas-vindas" class="screen">
+        <div class="container">
+            <div class="header">
+                <div class="logo">
+                    <img src="logo.png" alt="Conception Clinica Logo">
+                </div>
+                <div class="menu-icon">☰</div>
+            </div>
+            <div class="inner-content">
+                <div class="title">Seja Bem-vindo</div>
+                <div class="content">
+                    <p class="welcome-message">
+                        Vocês tem 30 minutos para responder o formulário a seguir. Fiquem à vontade para responder, suas respostas são totalmente anônimas.
+                    </p>
+                    <div class="button-group">
+                        <button class="mdc-button" id="start-perguntas">Iniciar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="pergunta-descritiva" class="screen">
+        <div class="container">
+            <div class="header">
+                <div class="logo">
+                    <img src="logo.png" alt="Conception Clinica Logo">
+                </div>
+                <div class="menu-icon">☰</div>
+            </div>
+            <div class="inner-content">
+                <div class="question" id="question-text">
+                    Carregando questão...
+                </div>
+                <div class="text-response-container">
+                    <textarea placeholder="Digite sua resposta aqui..." class="text-response"></textarea>
+                    <button class="mdc-button" id="confirm-button">Confirmar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="pergunta-escala" class="screen">
+        <div class="container">
+            <div class="header">
+                <div class="logo">
+                    <img src="logo.png" alt="Conception Clinica Logo">
+                </div>
+                <div class="menu-icon">☰</div>
+            </div>
+            <div class="inner-content">
+                <div class="question" id="question-text-scale">
+                    Carregando questão...
+                </div>
+                <div class="scale" id="scale-container">
+                    <!-- Botões de escala serão carregados aqui -->
+                </div>
+                <div class="confirm-button">
+                    <button class="mdc-button" id="confirm-scale-button">Confirmar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="pergunta-multipla-escolha" class="screen">
+        <div class="container">
+            <div class="header">
+                <div class="logo">
+                    <img src="logo.png" alt="Conception Clinica Logo">
+                </div>
+                <div class="menu-icon">☰</div>
+            </div>
+            <div class="inner-content">
+                <div class="question" id="question-text-multiple-choice">
+                    Carregando questão...
+                </div>
+                <div class="options" id="options-container">
+                    <!-- Opções serão carregadas aqui -->
+                </div>
+                <div class="confirm-button">
+                    <button class="mdc-button" id="confirm-multiple-choice-button">Confirmar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="encerramento" class="screen">
+        <div class="container">
+            <div class="header">
+                <div class="logo">
+                    <img src="logo.png" alt="Conception Clinica Logo">
+                </div>
+                <div class="menu-icon">☰</div>
+            </div>
+            <div class="title">Pesquisa Concluída</div>
+            <div class="content">
+                <p class="closing-message">
+                    Obrigado por completar nosso questionário! Suas respostas são muito valiosas para nós.
+                </p>
+                <div class="action-buttons">
+                    <button class="mdc-button" id="submit-answers">Enviar Respostas</button>
+                    <button class="mdc-button" id="go-to-home">Voltar ao Início</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 class="title">Login</h2>
+            <div class="login-form">
+                <input type="text" id="username" class="input-field" placeholder="Username">
+                <input type="password" id="password" class="input-field" placeholder="Password">
+                <button id="loginButton" class="mdc-button">Login</button>
+            </div>
+        </div>
+    </div>
+    
+
+    <script>
+$(document).ready(function() {
+    let currentForm = null;
+    let currentQuestionIndex = 0;
+    let userResponses = []; // Respostas do usuário
+
+
+    // tela de login:
+    $('.menu-icon').on('click', function() {
+        $('#loginModal').css('display', 'flex');
+    });
+
+    // Fecha o modal de login quando o botão de fechar é clicado
+    $('.close').on('click', function() {
+        $('#loginModal').css('display', 'none');
+    });
+
+    // Fecha o modal de login quando o usuário clica fora do conteúdo do modal
+    $(window).on('click', function(event) {
+        if ($(event.target).is('#loginModal')) {
+            $('#loginModal').css('display', 'none');
+        }
+    });
+    $("#go-to-home").on('click', function() {
+        $('#loginModal').css('display', 'flex');
+    });
+
+    
+    //inicio:
+    loadFormList(); // Carrega a lista de formulários/historias ao iniciar
+
+    function loadFormList() {
+        $.ajax({
+            //meu url:
+            url: 'https://6a2d-187-23-184-241.ngrok-free.app/historias',
+            //url: 'https://72a3-2804-14c-7d91-8cb4-1827-5265-6868-5632.ngrok-free.app/historias',
+            type: 'GET',
+            headers: {
+                'ngrok-skip-browser-warning': 'True'
+            },
+            success: function(data) {
+                const questionnaireList = $('#questionnaire-list');
+                $.each(JSON.parse(data), function(index, form) {
+                    let button = $('<button>').addClass('mdc-button').text(form.titulo).attr('data-id', form.id).attr('id', 'form-option-button');
+                    button.on('click', function() {
+                        $(this).toggleClass('selected');
+                        $(this).next('div').toggle();
+                        manageApplyButtonState();
+                    });
+
+                    let questionsDiv = $('<div>').addClass('questions').css('display', 'none');
+                    $.each(form.sequenciaPerguntas, function(index, question) {
+                        questionsDiv.append($('<div>').addClass('question-box').text(question.titulo).attr('id', question.id).attr('tipo', question.tipo));
+                    });
+
+                    questionnaireList.append(button);
+                    questionnaireList.append(questionsDiv);
+                });
+            },
+            error: function(xhr, status, error) {
+                console.error('Erro ao carregar formulários:', error);
+            }
+        });
+    }
+
+    $('#apply-button').click(function() {
+        applyForm('oi');
+    });
+
+    function manageApplyButtonState() {
+        const selectedButtons = $('.mdc-button.selected');
+        if (selectedButtons.length === 1) {
+            $('#apply-button').removeAttr('disabled');
+        } else {
+            $('#apply-button').attr('disabled', 'disabled');
+        }
+    }
+
+    function applyForm() {        
+        var selectedButton = $('.mdc-button.selected');
+        if (selectedButton.length > 0) {
+            var selectedId = selectedButton.data('id');
+            $.ajax({
+                // meu url:
+                url: 'https://6a2d-187-23-184-241.ngrok-free.app/historia?id=' + selectedId,
+                type: 'GET',
+                headers: {
+                    'ngrok-skip-browser-warning': 'True'
+                },
+                success: function(data) {
+                    currentForm = data;
+                    currentQuestionIndex = 0;
+                    userResponses = []; // Limpa as respostas anteriores ao iniciar um novo questionário
+                    showScreen('boas-vindas');
+                    saveResponsesLocally(); // Salva as respostas localmente ao iniciar o questionário
+                },
+                error: function(xhr, status, error) {
+                    console.error('Erro ao carregar perguntas:', error);
+                }
+            });
+        } else {
+            console.error("Nenhum formulário foi selecionado.");
+        }
+    }
+
+    $('#start-perguntas').click(function() {
+        nextQuestion();
+    });
+
+    function nextQuestion() {
+        if (currentQuestionIndex < currentForm.sequenciaPerguntas.length) {
+            const question = currentForm.sequenciaPerguntas[currentQuestionIndex];
+            renderQuestion(question);
+            currentQuestionIndex++;
+        } else {
+            showScreen('encerramento');
+        }
+    }
+
+    function renderQuestion(question) {
+        switch (parseInt(question.tipo)) {
+            case 1:
+                $('#pergunta-descritiva #question-text').text(question.titulo);
+                showScreen('pergunta-descritiva');
+                break;
+            case 2:
+                $('#pergunta-escala #question-text-scale').text(question.titulo);
+                loadScaleOptions(question, '#scale-container');
+                showScreen('pergunta-escala');
+                break;
+            case 3:
+                $('#pergunta-multipla-escolha #question-text-multiple-choice').text(question.titulo);
+                loadOptions(question, '#options-container', true); 
+                $('#confirm-multiple-choice-button').prop('disabled', false);
+                showScreen('pergunta-multipla-escolha');
+                break;
+            case 4:
+                $('#pergunta-multipla-escolha #question-text-multiple-choice').text(question.titulo);
+                loadOptions(question, '#options-container', false); 
+                $('#confirm-multiple-choice-button').prop('disabled', false);
+                showScreen('pergunta-multipla-escolha');
+                break;
+            default:
+                alert('Tipo de pergunta desconhecido');
+                console.error('Tipo de pergunta desconhecido');
+        }
+    }
+
+    function loadOptions(question, containerSelector, isMultiple) {
+        const optionsContainer = $(containerSelector);
+        optionsContainer.empty();
+        $.each(question.botoes, function(index, botao) {
+            const option = $('<button>').addClass('mdc-button').text(botao.titulo);
+            if (isMultiple) {
+                option.on('click', function() {
+                    $(this).toggleClass('selected');
+                });
+            } else {
+                option.on('click', function() {
+                    optionsContainer.find('button').removeClass('selected');
+                    $(this).addClass('selected');
+                });
+            }
+            optionsContainer.append(option);
+        });
+    }
+
+    function loadScaleOptions(question, containerSelector) {
+    const scaleContainer = $(containerSelector);
+    scaleContainer.empty();
+    const scaleColors = generateScaleColors(10); 
+    for (let i = 1; i <= 10; i++) {
+        const scaleButton = $('<button>').addClass('mdc-button').text(i);
+        scaleButton.css('background-color', scaleColors[i - 1]);
+        scaleButton.on('click', function() {
+            scaleContainer.find('button').removeClass('selected');
+            $(this).addClass('selected');
+        });
+        scaleContainer.append(scaleButton);
+    }
+}
+
+function generateScaleColors(numSteps) {
+    const colors = [];
+    for (let i = 0; i < numSteps; i++) {
+        const red = Math.round((255 * (numSteps - i)) / numSteps);
+        const green = Math.round((255 * i) / numSteps);
+        const color = `rgb(${red},${green},0)`;
+        colors.push(color);
+    }
+    return colors;
+}
+
+
+    function showScreen(screenId) {
+        $('.screen').removeClass('active');
+        $('#' + screenId).addClass('active');
+    }
+
+    function saveResponsesLocally() {
+    const userResponsesJson = {
+        id_questionário: currentForm.id,
+        respostas: userResponses
+    };
+    sessionStorage.setItem('userResponses', JSON.stringify(userResponsesJson));
+}
+
+    
+    $('#confirm-button').click(function() {
+        const resposta = $('#pergunta-descritiva .text-response').val();
+        const perguntaId = currentForm.sequenciaPerguntas[currentQuestionIndex - 1].idPergunta;
+        userResponses.push({ valor: resposta, idPergunta: perguntaId });
+        saveResponsesLocally();
+        $('#pergunta-descritiva .text-response').val('');
+        nextQuestion();
+    }); 
+
+    
+    $('#confirm-scale-button').click(function() {
+        const resposta = $('#pergunta-escala .scale button.selected').text();
+        const perguntaId = currentForm.sequenciaPerguntas[currentQuestionIndex - 1].idPergunta;
+        userResponses.push({ valor: resposta, idPergunta: perguntaId });
+        saveResponsesLocally();
+        nextQuestion();
+    });
+
+    
+    $('#confirm-multiple-choice-button').click(function() {
+        const respostas = $('#pergunta-multipla-escolha .options button.selected');
+        respostas.each(function() {
+            const resposta = $(this).text();
+            const perguntaId = currentForm.sequenciaPerguntas[currentQuestionIndex - 1].idPergunta;
+            userResponses.push({ valor: resposta, idPergunta: perguntaId });
+        });
+        saveResponsesLocally();
+        nextQuestion();
+    });
+
+    
+    $('#submit-answers').click(function() {
+    const userResponsesJson = JSON.parse(sessionStorage.getItem('userResponses'));
+
+    $.ajax({
+        url: 'https://6a2d-187-23-184-241.ngrok-free.app/respostas',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(userResponsesJson),
+        success: function(data) {
+            console.log('Respostas enviadas com sucesso:', data);
+            sessionStorage.removeItem('userResponses'); // Limpa as respostas salvas no sessionStorage
+            
+        },
+        error: function(xhr, status, error) {
+            console.error('Erro ao enviar respostas:', error);
+        }
+    });
+});
+
+});
+    </script>
+</body>
+</html>

@@ -1,0 +1,676 @@
+/* Estilos globais */
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font-family: 'Roboto', sans-serif;
+    background-color: #2917C6;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.container {
+    width: 90%;
+    max-width: 900px;
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    overflow: hidden;
+    max-height: 90vh;
+    min-width: 600px;
+}
+
+.header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo img {
+    height: 40px;
+}
+
+.menu-icon {
+    font-size: 1.5em;
+    cursor: pointer;
+    color: #2917C6;
+}
+
+/* Estilo para o modal de login */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #ffffff;
+    margin: auto;
+    padding: 30px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.input-field {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0 15px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+
+/* Conteúdo interno */
+.inner-content {
+    overflow-y: auto;
+    flex-grow: 1;
+    width: 100%;
+    padding-right: 10px; /* Adiciona padding para evitar sobreposição da barra de rolagem */
+}
+
+.title {
+    font-size: 1.8em;
+    margin: 20px 0;
+    font-weight: bold;
+    color: #2917C6;
+    text-align: center;
+}
+
+.welcome-message {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+    color: #2917C6;
+    text-align: center;
+}
+
+.button-group, .confirm-button, .action-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+.mdc-button {
+    background: #FF5C99;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    color: #fff;
+    transition: background-color 0.3s ease;
+}
+
+.mdc-button:hover {
+    background-color: #FF92A6;
+}
+
+.mdc-button:disabled {
+    background: #CCCCCC;
+    cursor: not-allowed;
+}
+
+.mdc-button.selected {
+    background-color: #008cba;
+    color: white;
+}
+
+.action-buttons {
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    align-items: center;
+}
+
+.action-buttons .btn {
+    background-color: #FF5C99;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    margin: 5px;
+    width: 100%;
+    max-width: 300px;
+}
+
+.action-buttons .btn:hover {
+    background-color: #FF92A6;
+}
+
+.questionnaire-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.questionnaire-list .mdc-button {
+    background-color: #2993C6;
+    color: #fff;
+    border: none;
+    padding: 12px 17px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 5px 0;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    max-width: 300px;
+    text-align: center;
+}
+
+.questionnaire-list .mdc-button.selected {
+    background-color: #FF5C99;
+}
+
+.questionnaire-list .mdc-button:hover {
+    background-color: #80D3FF;
+}
+
+.questions {
+    display: none;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    padding-left: 20px;
+    border-left: 2px solid #2917C6;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.questions .question-box {
+    background: #80D3FF;    
+    color: #2917C6;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.questions p {    
+    margin: 0;
+    font-size: 1em;     
+}
+
+.question {
+    margin: 20px 0;
+    color: #2917C6;
+    font-size: 1.2em;
+    padding: 30px ;
+    text-align: center;
+}
+
+.text-response-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;       
+    margin-top: 20px;
+}
+
+.text-response {
+    width: 100%;
+    min-height: 150px;
+}
+
+.text-response textarea {
+    width: 90%;
+    padding: 15px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+    min-height: 100px;
+    max-height: 700px;
+    overflow: auto;
+    resize: none;
+    overflow-y: hidden; /* Adicionado para evitar barra de rolagem vertical */
+}
+
+.text-response textarea:focus {
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+    outline: none;
+}
+
+.scale {
+    color: #57ebd2;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.scale .mdc-button {
+    color: #2917C6;
+    background: #fff;
+    border: 1px solid #ccc;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 20px;
+    margin: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.scale .mdc-button.selected {
+    border: 2px solid #00ff0d;
+}
+
+.scale .mdc-button:hover {
+    background-color: #80D3FF;
+}
+
+.options {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.options .mdc-button {
+    background-color: #2993C6;
+    color: #fff;
+    border: none;
+    padding: 12px 17px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.options .mdc-button.selected {
+    background-color: #FF5C99;
+}
+
+.options .mdc-button:hover {
+    background-color: #80D3FF;
+}
+
+.closing-message {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+    color: #ffffff;
+    text-align: center;
+}
+
+/* Smartphones */
+@media only screen and (max-width: 600px) {
+    .container {
+        width: 100%;
+        min-width: 100%;
+        padding: 20px;
+        max-height: 100vh;
+        border-radius: 0;
+    }
+    
+    .title {
+        font-size: 1.5em;
+    }
+
+    .welcome-message, .question {
+        font-size: 1em;
+        padding: 20px;
+    }
+
+    .mdc-button {
+        font-size: 0.9em;
+        padding: 8px 16px;
+    }
+
+    .text-response textarea {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .scale .mdc-button {
+        width: 50px;
+        height: 50px;
+        font-size: 18px;
+    }
+
+    .options .mdc-button {
+        padding: 10px 15px;
+        font-size: 14px;
+    }
+}
+
+/* Tablets em modo retrato */
+@media only screen and (min-width: 601px) and (max-width: 768px) and (orientation: portrait) {
+    .container {
+        width: 100%;
+        min-width: 100%;
+        padding: 25px;
+        max-height: 95vh;
+        border-radius: 0;
+    }
+    
+    .title {
+        font-size: 1.6em;
+    }
+
+    .welcome-message, .question {
+        font-size: 1.1em;
+        padding: 25px;
+    }
+
+    .mdc-button {
+        font-size: 1em;
+        padding: 10px 18px;
+    }
+
+    .text-response textarea {
+        width: 95%;
+        padding: 12px;
+    }
+
+    .scale .mdc-button {
+        width: 55px;
+        height: 55px;
+        font-size: 19px;
+    }
+
+    .options .mdc-button {
+        padding: 11px 16px;
+        font-size: 15px;
+    }
+}
+
+/* Tablets em modo paisagem */
+@media only screen and (min-width: 769px) and (max-width: 1024px) and (orientation: landscape) {
+    .container {
+        width: 85%;
+        min-width: 85%;
+        padding: 30px;
+        max-height: 90vh;
+    }
+    
+    .title {
+        font-size: 1.7em;
+    }
+
+    .welcome-message, .question {
+        font-size: 1.2em;
+        padding: 28px;
+    }
+
+    .mdc-button {
+        font-size: 1.1em;
+        padding: 12px 20px;
+    }
+
+    .text-response textarea {
+        width: 90%;
+        padding: 15px;
+    }
+
+    .scale .mdc-button {
+        width: 60px;
+        height: 60px;
+        font-size: 20px;
+    }
+
+    .options .mdc-button {
+        padding: 12px 18px;
+        font-size: 16px;
+    }
+}
+
+/* Smartphones em modo paisagem */
+@media only screen and (max-width: 812px) and (orientation: landscape) {
+    .container {
+        width: 100%;
+        min-width: 100%;
+        padding: 15px;
+        max-height: 100vh;
+        border-radius: 0;
+    }
+
+    .title {
+        font-size: 1.4em;
+    }
+
+    .welcome-message, .question {
+        font-size: 0.9em;
+        padding: 18px;
+    }
+
+    .mdc-button {
+        font-size: 0.8em;
+        padding: 7px 14px;
+    }
+
+    .text-response textarea {
+        width: 100%;
+        padding: 8px;
+    }
+
+    .scale .mdc-button {
+        width: 45px;
+        height: 45px;
+        font-size: 17px;
+    }
+
+    .options .mdc-button {
+        padding: 9px 13px;
+        font-size: 13px;
+    }
+}
+
+
+/* Smartphones em modo paisagem */
+@media only screen and (max-width: 812px) and (orientation: landscape) {
+    .container {
+        width: 100%;
+        min-width: 100%;
+        padding: 15px;
+        max-height: 100vh;
+        border-radius: 0;
+    }
+
+    .title {
+        font-size: 1.4em;
+    }
+
+    .welcome-message, .question {
+        font-size: 0.9em;
+        padding: 18px;
+    }
+
+    .mdc-button {
+        font-size: 0.8em;
+        padding: 7px 14px;
+    }
+
+    .text-response textarea {
+        width: 100%;
+        padding: 8px;
+    }
+
+    .scale .mdc-button {
+        width: 45px;
+        height: 45px;
+        font-size: 17px;
+    }
+
+    .options .mdc-button {
+        padding: 9px 13px;
+        font-size: 13px;
+    }
+}
+
+
+/* Tablets em modo retrato */
+@media only screen and (min-width: 601px) and (max-width: 768px) and (orientation: portrait) {
+    .container {
+        width: 100%;
+        min-width: 100%;
+        padding: 25px;
+        max-height: 95vh;
+        border-radius: 0;
+    }
+    
+    .title {
+        font-size: 1.6em;
+    }
+
+    .welcome-message, .question {
+        font-size: 1.1em;
+        padding: 25px;
+    }
+
+    .mdc-button {
+        font-size: 1em;
+        padding: 10px 18px;
+    }
+
+    .text-response textarea {
+        width: 95%;
+        padding: 12px;
+    }
+
+    .scale .mdc-button {
+        width: 55px;
+        height: 55px;
+        font-size: 19px;
+    }
+
+    .options .mdc-button {
+        padding: 11px 16px;
+        font-size: 15px;
+    }
+}
+
+
+/* Tablets em modo paisagem */
+@media only screen and (min-width: 769px) and (max-width: 1024px) and (orientation: landscape) {
+    .container {
+        width: 85%;
+        min-width: 85%;
+        padding: 30px;
+        max-height: 90vh;
+         min-width: 400px;
+    }
+    
+    .title {
+        font-size: 1.7em;
+    }
+
+    .welcome-message, .question {
+        font-size: 1.2em;
+        padding: 28px;
+    }
+
+    .mdc-button {
+        font-size: 1.1em;
+        padding: 12px 20px;
+    }
+
+    .text-response textarea {
+        width: 90%;
+        padding: 15px;
+    }
+
+    .scale .mdc-button {
+        width: 60px;
+        height: 60px;
+        font-size: 20px;
+    }
+
+    .options .mdc-button {
+        padding: 12px 18px;
+        font-size: 16px;
+    }
+}
+
+
+
+/* Notebooks de tela pequena ou janela não fullscreen em monitor normal */
+@media only screen and (min-width: 1025px) and (max-width: 1366px) {
+    .container {
+        width: 80%;
+        max-width: 800px;
+        padding: 25px;
+        max-height: 85vh;       
+    }
+    
+    .title {
+        font-size: 1.6em;
+    }
+
+    .welcome-message, .question {
+        font-size: 1.1em;
+        padding: 25px;
+    }
+
+    .mdc-button {
+        font-size: 1em;
+        padding: 10px 18px;
+    }
+
+    .text-response textarea {
+        width: 95%;
+        padding: 12px;
+    }
+
+    .scale .mdc-button {
+        width: 55px;
+        height: 55px;
+        font-size: 19px;
+    }
+
+    .options .mdc-button {
+        padding: 11px 16px;
+        font-size: 15px;
+    }
+}
