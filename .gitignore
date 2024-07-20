@@ -24,7 +24,6 @@ share/python-wheels/
 *.egg-info/
 .installed.cfg
 *.egg
-**/__pycache__/
 
 MANIFEST
 
@@ -164,6 +163,3 @@ cython_debug/
 #.idea/
 
 node_modules/
-__pycache__/
-.__pycache__
-/__pycache__
