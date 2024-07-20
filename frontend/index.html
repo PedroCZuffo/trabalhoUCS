@@ -193,6 +193,7 @@ $(document).ready(function() {
         $('#loginModal').css('display', 'flex');
     });
 
+    jQuery.support.cors = true;
     
     //inicio:
     loadFormList(); // Carrega a lista de formulários/historias ao iniciar
@@ -200,15 +201,13 @@ $(document).ready(function() {
     function loadFormList() {
         $.ajax({
             //meu url:
-            url: 'https://6a2d-187-23-184-241.ngrok-free.app/historias',
-            //url: 'https://72a3-2804-14c-7d91-8cb4-1827-5265-6868-5632.ngrok-free.app/historias',
+            url: 'http://localhost:8000/historias',
+            crossDomain: true,
+            dataType: 'json',
             type: 'GET',
-            headers: {
-                'ngrok-skip-browser-warning': 'True'
-            },
             success: function(data) {
                 const questionnaireList = $('#questionnaire-list');
-                $.each(JSON.parse(data), function(index, form) {
+                $.each(data, function(index, form) {
                     let button = $('<button>').addClass('mdc-button').text(form.titulo).attr('data-id', form.id).attr('id', 'form-option-button');
                     button.on('click', function() {
                         $(this).toggleClass('selected');
@@ -250,11 +249,8 @@ $(document).ready(function() {
             var selectedId = selectedButton.data('id');
             $.ajax({
                 // meu url:
-                url: 'https://6a2d-187-23-184-241.ngrok-free.app/historia?id=' + selectedId,
+                url: 'http://backend:8000/historia?id=' + selectedId,
                 type: 'GET',
-                headers: {
-                    'ngrok-skip-browser-warning': 'True'
-                },
                 success: function(data) {
                     currentForm = data;
                     currentQuestionIndex = 0;
@@ -409,7 +405,7 @@ function generateScaleColors(numSteps) {
     const userResponsesJson = JSON.parse(sessionStorage.getItem('userResponses'));
 
     $.ajax({
-        url: 'https://6a2d-187-23-184-241.ngrok-free.app/respostas',
+        url: 'http://backend:8000/respostas',
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify(userResponsesJson),

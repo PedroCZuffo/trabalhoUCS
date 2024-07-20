@@ -24,6 +24,8 @@ share/python-wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+**/__pycache__/
+
 MANIFEST
 
 # PyInstaller
@@ -163,3 +165,5 @@ cython_debug/
 
 node_modules/
 __pycache__/
+.__pycache__
+/__pycache__
